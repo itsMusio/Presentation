@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HSA Purification Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <div class="ambient ambient--left" aria-hidden="true"></div>
+  <div class="ambient ambient--right" aria-hidden="true"></div>
+
+  <main class="deck" role="application" aria-label="Presentation deck">
+    <header class="toolbar">
+      <div class="toolbar__meta">
+        <p class="kicker" id="deckKicker">Research Presentation</p>
+        <h1 class="deck-title" id="deckTitle"></h1>
+      </div>
+      <div class="toolbar__controls">
+        <button class="btn" id="prevBtn" type="button" aria-label="Previous slide">Prev</button>
+        <span class="counter" id="counter"></span>
+        <button class="btn" id="nextBtn" type="button" aria-label="Next slide">Next</button>
+      </div>
+    </header>
+
+    <section class="slide-root" id="slideRoot" aria-live="polite"></section>
+
+    <footer class="progress-wrap" aria-hidden="true">
+      <div class="progress-bar" id="progressBar"></div>
+    </footer>
+    <p class="help">Use Arrow keys, Space, Home/End, or swipe on mobile.</p>
+  </main>
+
+  <script type="module" src="scripts/main.js"></script>
+</body>
+</html>
