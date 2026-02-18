@@ -2,7 +2,8 @@ import { presentation } from "../data/slides.js";
 
 const state = {
   index: 0,
-  touchStartX: null
+  touchStartX: null,
+  menuOpen: false
 };
 
 const slideRoot = document.getElementById("slideRoot");
@@ -12,6 +13,11 @@ const counter = document.getElementById("counter");
 const progressBar = document.getElementById("progressBar");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
+const menuBtn = document.getElementById("menuBtn");
+const closeMenuBtn = document.getElementById("closeMenuBtn");
+const slideMenu = document.getElementById("slideMenu");
+const slideMenuNav = document.getElementById("slideMenuNav");
+const menuBackdrop = document.getElementById("menuBackdrop");
 
 const allSlides = presentation.slides;
 
@@ -88,6 +94,60 @@ function createFigures(items) {
   return wrap;
 }
 
+function setMenuOpen(open) {
+  state.menuOpen = open;
+  document.body.classList.toggle("menu-open", open);
+  menuBackdrop.hidden = !open;
+  menuBackdrop.setAttribute("aria-hidden", String(!open));
+  slideMenu.setAttribute("aria-hidden", String(!open));
+  menuBtn.setAttribute("aria-expanded", String(open));
+  if (open) {
+    closeMenuBtn.focus();
+  } else {
+    menuBtn.focus();
+  }
+}
+
+function syncMenuSelection() {
+  const activeItem = slideMenuNav.querySelector('[aria-current="true"]');
+  if (activeItem) {
+    activeItem.removeAttribute("aria-current");
+    activeItem.classList.remove("is-active");
+  }
+
+  const currentItem = slideMenuNav.querySelector(`[data-slide-index="${state.index}"]`);
+  if (currentItem) {
+    currentItem.setAttribute("aria-current", "true");
+    currentItem.classList.add("is-active");
+    currentItem.scrollIntoView({ block: "nearest" });
+  }
+}
+
+function renderMenu() {
+  const fragment = document.createDocumentFragment();
+  allSlides.forEach((slide, index) => {
+    const item = document.createElement("button");
+    const indexLabel = document.createElement("span");
+    const titleLabel = document.createElement("span");
+
+    item.type = "button";
+    item.className = "slide-menu__item";
+    item.dataset.slideIndex = String(index);
+    indexLabel.className = "slide-menu__index";
+    indexLabel.textContent = `${slide.id}.`;
+    titleLabel.className = "slide-menu__text";
+    titleLabel.textContent = slide.title;
+    item.append(indexLabel, titleLabel);
+    item.addEventListener("click", () => {
+      setMenuOpen(false);
+      goTo(index);
+    });
+    fragment.appendChild(item);
+  });
+  slideMenuNav.replaceChildren(fragment);
+  syncMenuSelection();
+}
+
 function renderSlide() {
   const slide = allSlides[state.index];
   const card = document.createElement("article");
@@ -137,6 +197,8 @@ function renderSlide() {
   if (window.location.hash !== targetHash) {
     window.history.replaceState(null, "", targetHash);
   }
+
+  syncMenuSelection();
 }
 
 function goTo(index) {
@@ -167,11 +229,24 @@ function parseHash() {
 
 prevBtn.addEventListener("click", () => step(-1));
 nextBtn.addEventListener("click", () => step(1));
+menuBtn.addEventListener("click", () => setMenuOpen(!state.menuOpen));
+closeMenuBtn.addEventListener("click", () => setMenuOpen(false));
+menuBackdrop.addEventListener("click", () => setMenuOpen(false));
 
 document.addEventListener("keydown", (event) => {
   const key = event.key;
   const blockedTags = ["INPUT", "TEXTAREA", "SELECT"];
   if (blockedTags.includes(document.activeElement?.tagName || "")) {
+    return;
+  }
+
+  if (key === "Escape" && state.menuOpen) {
+    event.preventDefault();
+    setMenuOpen(false);
+    return;
+  }
+
+  if (state.menuOpen) {
     return;
   }
 
@@ -234,5 +309,6 @@ window.addEventListener("hashchange", () => {
 });
 
 parseHash();
+renderMenu();
 renderSlide();
 setupLiveGradient();
