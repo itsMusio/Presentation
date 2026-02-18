@@ -18,6 +18,44 @@ const allSlides = presentation.slides;
 deckKicker.textContent = presentation.meta.kicker;
 deckTitle.textContent = presentation.meta.title;
 
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+function setupLiveGradient() {
+  if (prefersReducedMotion.matches) {
+    return;
+  }
+
+  let targetX = 18;
+  let targetY = 14;
+  let currentX = targetX;
+  let currentY = targetY;
+
+  const setVars = () => {
+    document.documentElement.style.setProperty("--live-x", `${currentX.toFixed(2)}%`);
+    document.documentElement.style.setProperty("--live-y", `${currentY.toFixed(2)}%`);
+    document.documentElement.style.setProperty("--live-x-2", `${(100 - currentX).toFixed(2)}%`);
+    document.documentElement.style.setProperty("--live-y-2", `${(100 - currentY).toFixed(2)}%`);
+  };
+
+  const onPointerMove = (event) => {
+    const width = window.innerWidth || 1;
+    const height = window.innerHeight || 1;
+    targetX = (event.clientX / width) * 100;
+    targetY = (event.clientY / height) * 100;
+  };
+
+  const tick = () => {
+    currentX += (targetX - currentX) * 0.045;
+    currentY += (targetY - currentY) * 0.045;
+    setVars();
+    window.requestAnimationFrame(tick);
+  };
+
+  window.addEventListener("pointermove", onPointerMove, { passive: true });
+  setVars();
+  window.requestAnimationFrame(tick);
+}
+
 function createTextBlock(tagName, className, text) {
   const element = document.createElement(tagName);
   element.className = `${className} reveal`;
@@ -197,3 +235,4 @@ window.addEventListener("hashchange", () => {
 
 parseHash();
 renderSlide();
+setupLiveGradient();
