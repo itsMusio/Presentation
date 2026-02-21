@@ -21,6 +21,12 @@ python -m http.server 8080
 
 3. Open `http://localhost:8080` in your browser.
 
+If you see a MIME type error for `.js` modules on Windows, run the included server instead:
+
+```powershell
+python server.py
+```
+
 ## Navigation
 
 - `ArrowRight` / `PageDown` / `Space`: next slide
