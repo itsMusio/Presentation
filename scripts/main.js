@@ -94,6 +94,95 @@ function createFigures(items) {
   return wrap;
 }
 
+function createImageBlock(block) {
+  const src = block.src;
+  const alt =
+    typeof block.alt === "string" && block.alt.length > 0 ? block.alt : "Slide image";
+  const image = document.createElement("img");
+  image.className = "slide-image reveal";
+  image.src = src;
+  image.alt = alt;
+  image.decoding = "async";
+  image.loading = "eager";
+  return image;
+}
+
+function buildLegacyBlocks(slide) {
+  const blocks = [];
+
+  if (slide.lead) {
+    blocks.push({ type: "lead", text: slide.lead });
+  }
+
+  if (Array.isArray(slide.bullets) && slide.bullets.length > 0) {
+    blocks.push({ type: "bullets", items: slide.bullets });
+  }
+
+  if (Array.isArray(slide.paragraphs)) {
+    slide.paragraphs.forEach((paragraph) => {
+      blocks.push({ type: "paragraph", text: paragraph });
+    });
+  }
+
+  if (Array.isArray(slide.figures) && slide.figures.length > 0) {
+    blocks.push({ type: "figures", items: slide.figures });
+  }
+
+  return blocks;
+}
+
+function getSlideBlocks(slide) {
+  if (Array.isArray(slide.blocks)) {
+    return slide.blocks;
+  }
+  return buildLegacyBlocks(slide);
+}
+
+function appendBlock(card, block) {
+  if (!block || typeof block !== "object") {
+    return;
+  }
+
+  switch (block.type) {
+    case "lead":
+      if (typeof block.text === "string" && block.text.length > 0) {
+        card.appendChild(createTextBlock("p", "slide-lead", block.text));
+      }
+      break;
+    case "paragraph":
+      if (typeof block.text === "string" && block.text.length > 0) {
+        card.appendChild(createTextBlock("p", "slide-p", block.text));
+      }
+      break;
+    case "paragraphs":
+      if (Array.isArray(block.items)) {
+        block.items.forEach((paragraph) => {
+          if (typeof paragraph === "string" && paragraph.length > 0) {
+            card.appendChild(createTextBlock("p", "slide-p", paragraph));
+          }
+        });
+      }
+      break;
+    case "bullets":
+      if (Array.isArray(block.items) && block.items.length > 0) {
+        card.appendChild(createList(block.items));
+      }
+      break;
+    case "figures":
+      if (Array.isArray(block.items) && block.items.length > 0) {
+        card.appendChild(createFigures(block.items));
+      }
+      break;
+    case "image":
+      if (typeof block.src === "string" && block.src.length > 0) {
+        card.appendChild(createImageBlock(block));
+      }
+      break;
+    default:
+      break;
+  }
+}
+
 function setMenuOpen(open) {
   state.menuOpen = open;
   document.body.classList.toggle("menu-open", open);
@@ -152,9 +241,18 @@ function renderSlide() {
   const slide = allSlides[state.index];
   const card = document.createElement("article");
   card.className = "slide-card";
+  if (slide.id === 1) {
+    card.classList.add("slide-card--center");
+  }
+  const slideBlocks = getSlideBlocks(slide);
+  const titleAfterFirstImage = slide.id === 1 && slideBlocks[0]?.type === "image";
 
   if (slide.kicker) {
     card.appendChild(createTextBlock("p", "slide-kicker", slide.kicker));
+  }
+
+  if (titleAfterFirstImage) {
+    appendBlock(card, slideBlocks[0]);
   }
 
   card.appendChild(createTextBlock("h2", "slide-title", slide.title));
@@ -163,22 +261,10 @@ function renderSlide() {
     card.appendChild(createTextBlock("p", "slide-subtitle", slide.subtitle));
   }
 
-  if (slide.lead) {
-    card.appendChild(createTextBlock("p", "slide-lead", slide.lead));
-  }
-
-  if (Array.isArray(slide.bullets) && slide.bullets.length > 0) {
-    card.appendChild(createList(slide.bullets));
-  }
-
-  if (Array.isArray(slide.paragraphs)) {
-    slide.paragraphs.forEach((paragraph) => {
-      card.appendChild(createTextBlock("p", "slide-p", paragraph));
-    });
-  }
-
-  if (Array.isArray(slide.figures) && slide.figures.length > 0) {
-    card.appendChild(createFigures(slide.figures));
+  if (titleAfterFirstImage) {
+    slideBlocks.slice(1).forEach((block) => appendBlock(card, block));
+  } else {
+    slideBlocks.forEach((block) => appendBlock(card, block));
   }
 
   const revealNodes = card.querySelectorAll(".reveal");

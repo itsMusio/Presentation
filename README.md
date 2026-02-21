@@ -7,7 +7,7 @@ Frontend slide deck scaffold built from your `Contetnts scafold` document, using
 - `index.html`: presentation shell and semantic layout
 - `styles/main.css`: all visual styling, theme, responsive behavior, animations
 - `scripts/main.js`: rendering and navigation logic
-- `data/slides.js`: slide content (titles, bullets, text, figure placeholders)
+- `data/slides.js`: slide content (title + ordered `blocks`)
 - `assets/images/`: add your real images/charts/plots here
 
 ## Run Locally
@@ -39,11 +39,28 @@ python server.py
 1. Open `data/slides.js`.
 2. Each slide is one object in `presentation.slides`.
 3. Update these fields per slide:
+   - `id`
    - `title`
-   - `lead`
-   - `bullets` (array)
-   - `paragraphs` (array)
-   - `figures` (placeholder labels)
+   - `blocks` (ordered array of content blocks)
+
+Example slide body:
+
+```js
+blocks: [
+  { type: "lead", text: "Short intro" },
+  { type: "bullets", items: ["Point A", "Point B"] },
+  { type: "paragraph", text: "Context between lists." },
+  { type: "bullets", items: ["Point C", "Point D"] },
+  { type: "figures", items: ["Insert chart"] }
+]
+```
+
+Supported block types:
+- `lead` with `text`
+- `paragraph` with `text`
+- `bullets` with `items` (array of strings)
+- `figures` with `items` (array of labels/placeholders)
+- `image` with `src` and optional `alt`
 
 ## Insert Real Figures
 
