@@ -16,6 +16,9 @@
   --shadow: 0 16px 40px rgba(20, 36, 51, 0.14);
   --font-display: Cambria, "Times New Roman", serif;
   --font-body: Cambria, "Times New Roman", serif;
+  --side-menu-width: min(24rem, 88vw);
+  --side-handle-width: 1.55rem;
+  --side-handle-height: 5.4rem;
 }
 
 *,
@@ -112,8 +115,7 @@ body.menu-open {
 .menu-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(11, 22, 33, 0.36);
-  backdrop-filter: blur(2px);
+  background: transparent;
   opacity: 0;
   pointer-events: none;
   z-index: 7;
@@ -129,35 +131,69 @@ body.menu-open .menu-backdrop {
   position: fixed;
   top: 0;
   left: 0;
-  width: min(24rem, 88vw);
+  width: var(--side-menu-width);
   height: 100vh;
   z-index: 8;
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 0.75rem;
-  padding: 1rem 0.9rem 1rem 1rem;
-  background: linear-gradient(180deg, rgba(255, 248, 238, 0.98), rgba(248, 239, 226, 0.96));
-  border-right: 1px solid rgba(21, 36, 51, 0.14);
-  box-shadow: 0 10px 48px rgba(14, 23, 33, 0.28);
-  transform: translateX(-103%);
-  transition: transform 220ms ease;
+  padding: 1rem 0.55rem 1rem 0.6rem;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 12px 38px rgba(14, 23, 33, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(13px) saturate(165%) brightness(1.1);
+  -webkit-backdrop-filter: blur(26px) saturate(165%) brightness(1.1);
+  overflow: hidden;
+  transform: translateX(calc(-1 * var(--side-menu-width)));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 260ms cubic-bezier(0.25, 0.7, 0, 1), opacity 160ms ease;
+  will-change: transform, opacity;
+}
+
+.slide-menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.05) 36%, rgba(255, 255, 255, 0.01)),
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.24), transparent 42%);
 }
 
 body.menu-open .slide-menu {
   transform: translateX(0);
+  opacity: 0.95;
+  pointer-events: auto;
+}
+
+.slide-menu__head,
+.slide-menu__nav {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: transform 190ms ease, opacity 130ms ease;
+}
+
+body.menu-open .slide-menu__head,
+body.menu-open .slide-menu__nav {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 90ms;
 }
 
 .slide-menu__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.75rem;
+  display: block;
 }
 
 .slide-menu__title {
-  margin: 0;
+  margin: 0 0 0.2rem;
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1rem;
+  color: rgba(21, 36, 51, 0.92);
 }
 
 .slide-menu__nav {
@@ -167,16 +203,19 @@ body.menu-open .slide-menu {
   align-content: start;
   gap: 0.4rem;
   padding-right: 0.2rem;
+  scrollbar-width: auto;
+  scrollbar-color: rgba(21, 36, 51, 0.82) rgba(255, 255, 255, 0.28);
+  scrollbar-gutter: stable;
 }
 
 .slide-menu__item {
   width: 100%;
-  border: 1px solid rgba(21, 36, 51, 0.12);
-  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(21, 36, 51, 0.18);
+  background: rgba(255, 255, 255, 0.44);
   color: var(--ink);
-  border-radius: 0.72rem;
+  border-radius: 0.62rem;
   text-align: left;
-  padding: 0.56rem 0.66rem;
+  padding: 0.56rem 0.58rem;
   font-family: inherit;
   cursor: pointer;
   transition: transform 130ms ease, border-color 130ms ease, background 130ms ease;
@@ -185,11 +224,12 @@ body.menu-open .slide-menu {
 .slide-menu__item:hover {
   transform: translateY(-1px);
   border-color: rgba(21, 36, 51, 0.26);
+  background: rgba(255, 255, 255, 0.52);
 }
 
 .slide-menu__item.is-active {
-  border-color: rgba(200, 99, 38, 0.42);
-  background: linear-gradient(130deg, rgba(227, 131, 76, 0.16), rgba(255, 255, 255, 0.88));
+  border-color: rgba(21, 36, 51, 0.34);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .slide-menu__index {
@@ -231,6 +271,71 @@ body.menu-open .slide-menu {
   background: transparent;
 }
 
+.btn--icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+}
+
+.btn__icon {
+  width: 1rem;
+  height: 1rem;
+  display: block;
+}
+
+.menu-handle {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: var(--side-handle-width);
+  height: var(--side-handle-height);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: none;
+  border-radius: 0 0.62rem 0.62rem 0;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  z-index: 9;
+  cursor: pointer;
+  box-shadow:
+    0 12px 38px rgba(14, 23, 33, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(13px) saturate(165%) brightness(1.1);
+  -webkit-backdrop-filter: blur(26px) saturate(165%) brightness(1.1);
+  overflow: hidden;
+  transition: left 260ms cubic-bezier(0.25, 0.7, 0, 1), border-color 140ms ease;
+}
+
+body.menu-open .menu-handle {
+  left: calc(var(--side-menu-width) - 1px);
+}
+
+.menu-handle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.05) 36%, rgba(255, 255, 255, 0.01)),
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.24), transparent 42%);
+}
+
+.menu-handle:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.menu-handle__glyph {
+  position: relative;
+  z-index: 1;
+  font-size: 1.1rem;
+  line-height: 1;
+  transform: translateX(-1px);
+}
+
 .counter {
   font-weight: 700;
   min-width: 4rem;
@@ -250,6 +355,77 @@ body.menu-open .slide-menu {
   box-shadow: var(--shadow);
   border-radius: 1.25rem;
   padding: clamp(1rem, 2vw, 2.1rem);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(21, 36, 51, 0.32) rgba(255, 255, 255, 0.3);
+}
+
+.slide-menu__nav::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.slide-card::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.slide-menu__nav::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 9999px;
+}
+
+.slide-card::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+}
+
+.slide-menu__nav::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(21, 36, 51, 0.78), rgba(21, 36, 51, 0.56));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 9999px;
+  min-height: 36px;
+}
+
+.slide-card::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(21, 36, 51, 0.46), rgba(21, 36, 51, 0.3));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 9999px;
+  min-height: 32px;
+}
+
+.slide-menu__nav::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(21, 36, 51, 0.92), rgba(21, 36, 51, 0.7));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.slide-card::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(21, 36, 51, 0.62), rgba(21, 36, 51, 0.42));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.slide-menu__nav::-webkit-scrollbar-track-piece:start,
+.slide-card::-webkit-scrollbar-track-piece:start {
+  border-radius: 9999px 9999px 0 0;
+}
+
+.slide-menu__nav::-webkit-scrollbar-track-piece:end,
+.slide-card::-webkit-scrollbar-track-piece:end {
+  border-radius: 0 0 9999px 9999px;
+}
+
+.slide-menu__nav::-webkit-scrollbar-button,
+.slide-card::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .slide-card--center {
@@ -422,15 +598,23 @@ body.menu-open .slide-menu {
     animation: none;
   }
 
+  .deck,
   .slide-menu,
+  .slide-menu__head,
+  .slide-menu__nav,
   .menu-backdrop,
   .slide-menu__item,
+  .menu-handle,
   .btn {
     transition: none;
   }
 }
 
 @media (max-width: 900px) {
+  :root {
+    --side-menu-width: min(25rem, 92vw);
+  }
+
   body {
     overflow: auto;
   }
@@ -454,10 +638,17 @@ body.menu-open .slide-menu {
   }
 
   .slide-menu {
-    width: min(25rem, 92vw);
+    width: var(--side-menu-width);
   }
 
   .slide-card {
     min-height: 70vh;
+  }
+
+  .menu-handle {
+    top: auto;
+    bottom: 1rem;
+    transform: none;
+    height: 3.1rem;
   }
 }

@@ -11,10 +11,11 @@ const deckKicker = document.getElementById("deckKicker");
 const deckTitle = document.getElementById("deckTitle");
 const counter = document.getElementById("counter");
 const progressBar = document.getElementById("progressBar");
+const homeBtn = document.getElementById("homeBtn");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const menuBtn = document.getElementById("menuBtn");
-const closeMenuBtn = document.getElementById("closeMenuBtn");
+const menuGlyph = document.getElementById("menuGlyph");
 const slideMenu = document.getElementById("slideMenu");
 const slideMenuNav = document.getElementById("slideMenuNav");
 const menuBackdrop = document.getElementById("menuBackdrop");
@@ -190,8 +191,14 @@ function setMenuOpen(open) {
   menuBackdrop.setAttribute("aria-hidden", String(!open));
   slideMenu.setAttribute("aria-hidden", String(!open));
   menuBtn.setAttribute("aria-expanded", String(open));
+  menuBtn.setAttribute("aria-label", open ? "Collapse slide menu" : "Expand slide menu");
+  if (menuGlyph) {
+    menuGlyph.textContent = open ? "<" : ">";
+  }
   if (open) {
-    closeMenuBtn.focus();
+    const activeItem =
+      slideMenuNav.querySelector('[aria-current="true"]') || slideMenuNav.querySelector("button");
+    activeItem?.focus();
   } else {
     menuBtn.focus();
   }
@@ -275,6 +282,7 @@ function renderSlide() {
   slideRoot.replaceChildren(card);
   counter.textContent = `${state.index + 1}/${allSlides.length}`;
   progressBar.style.width = `${((state.index + 1) / allSlides.length) * 100}%`;
+  homeBtn.disabled = state.index === 0;
   prevBtn.disabled = state.index === 0;
   nextBtn.disabled = state.index === allSlides.length - 1;
   document.title = `${slide.id}. ${slide.title} | ${presentation.meta.shortTitle}`;
@@ -313,10 +321,10 @@ function parseHash() {
   }
 }
 
+homeBtn.addEventListener("click", () => goTo(0));
 prevBtn.addEventListener("click", () => step(-1));
 nextBtn.addEventListener("click", () => step(1));
 menuBtn.addEventListener("click", () => setMenuOpen(!state.menuOpen));
-closeMenuBtn.addEventListener("click", () => setMenuOpen(false));
 menuBackdrop.addEventListener("click", () => setMenuOpen(false));
 
 document.addEventListener("keydown", (event) => {

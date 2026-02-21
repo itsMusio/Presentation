@@ -16,10 +16,20 @@
   <aside class="slide-menu" id="slideMenu" aria-label="Slide menu" aria-hidden="true">
     <div class="slide-menu__head">
       <h2 class="slide-menu__title">Slides</h2>
-      <button class="btn btn--ghost" id="closeMenuBtn" type="button" aria-label="Close slide menu">Close</button>
     </div>
     <nav class="slide-menu__nav" id="slideMenuNav"></nav>
   </aside>
+  <button
+    class="menu-handle"
+    id="menuBtn"
+    type="button"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls="slideMenu"
+    aria-label="Expand slide menu"
+  >
+    <span class="menu-handle__glyph" id="menuGlyph" aria-hidden="true">&gt;</span>
+  </button>
 
   <main class="deck" role="application" aria-label="Presentation deck">
     <header class="toolbar">
@@ -28,7 +38,13 @@
         <h1 class="deck-title" id="deckTitle"></h1>
       </div>
       <div class="toolbar__controls">
-        <button class="btn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="slideMenu">Menu</button>
+        <button class="btn btn--icon" id="homeBtn" type="button" aria-label="First slide" title="First slide">
+          <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 10.5L12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M6.5 9.8V20h11V9.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
         <button class="btn" id="prevBtn" type="button" aria-label="Previous slide">Prev</button>
         <span class="counter" id="counter"></span>
         <button class="btn" id="nextBtn" type="button" aria-label="Next slide">Next</button>
