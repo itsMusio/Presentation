@@ -521,6 +521,19 @@ body.menu-open .menu-handle {
   margin: 0.45rem 0 0.75rem;
 }
 
+.slide-image--align-left {
+  margin-right: auto;
+}
+
+.slide-image--align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.slide-image--align-right {
+  margin-left: auto;
+}
+
 .figure-grid {
   margin-top: 0.95rem;
   display: grid;

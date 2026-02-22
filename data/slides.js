@@ -34,11 +34,27 @@ export const presentation = {
     },
     {
       "id": 2,
-      "title": "Scientific Context: Albumin in Plasma",
+      "title": "Blood Plasma",
       "blocks": [
         {
           "type": "lead",
           "text": "Composition of Blood Plasma"
+        },
+        {
+          "type": "image",
+          "src": "assets/pictures/BloodPlasmaContent.png",
+          "alt": "Blood plasma composition diagram",
+          align: "center"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Blood Plasma",
+      "blocks": [
+        {
+          "type": "lead",
+          "text": "Human Serum Albumin (HSA) Characteristics"
         },
         {
           "type": "bullets",
@@ -60,13 +76,13 @@ export const presentation = {
         {
           "type": "figures",
           "items": [
-            "Insert plasma composition figure"
+            "[Insert plasma composition figure]"
           ]
         }
       ]
     },
     {
-      "id": 3,
+      "id": 4,
       "title": "Biological and Clinical Importance",
       "blocks": [
         {
@@ -91,7 +107,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 4,
+      "id": 5,
       "title": "The Core Separation Problem",
       "blocks": [
         {
@@ -113,7 +129,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 5,
+      "id": 6,
       "title": "Why Albumin Is Difficult to Separate",
       "blocks": [
         {
@@ -132,7 +148,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 6,
+      "id": 7,
       "title": "Limitations of Current Technologies",
       "blocks": [
         {
@@ -158,7 +174,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 7,
+      "id": 8,
       "title": "Patent and Market Perspective",
       "blocks": [
         {
@@ -179,7 +195,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 8,
+      "id": 9,
       "title": "Identified Research Gap",
       "blocks": [
         {
@@ -203,7 +219,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 9,
+      "id": 10,
       "title": "Conceptual Framework",
       "blocks": [
         {
@@ -225,7 +241,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 10,
+      "id": 11,
       "title": "Why Bentonite?",
       "blocks": [
         {
@@ -248,7 +264,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 11,
+      "id": 12,
       "title": "Need for Surface Functionalization",
       "blocks": [
         {
@@ -270,7 +286,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 12,
+      "id": 13,
       "title": "Molecular Docking-Based Precursor Screening",
       "blocks": [
         {
@@ -298,7 +314,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 13,
+      "id": 14,
       "title": "DTSACL Functionalization Strategy",
       "blocks": [
         {
@@ -326,7 +342,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 14,
+      "id": 15,
       "title": "Docking Analysis for Selectivity (HSA vs IgG)",
       "blocks": [
         {
@@ -354,7 +370,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 15,
+      "id": 16,
       "title": "Experimental Workflow",
       "blocks": [
         {
@@ -375,7 +391,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 16,
+      "id": 17,
       "title": "Synthesis of DTSACL-Modified Bentonite",
       "blocks": [
         {
@@ -396,7 +412,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 17,
+      "id": 18,
       "title": "Material Characterization",
       "blocks": [
         {
@@ -420,7 +436,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 18,
+      "id": 19,
       "title": "Experimental Design (CCD)",
       "blocks": [
         {
@@ -451,7 +467,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 19,
+      "id": 20,
       "title": "Adsorption Experiments",
       "blocks": [
         {
@@ -476,7 +492,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 20,
+      "id": 21,
       "title": "Isotherm Analysis",
       "blocks": [
         {
@@ -496,7 +512,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 21,
+      "id": 22,
       "title": "Kinetic Study",
       "blocks": [
         {
@@ -516,7 +532,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 22,
+      "id": 23,
       "title": "Thermodynamic Analysis",
       "blocks": [
         {
@@ -540,7 +556,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 23,
+      "id": 24,
       "title": "Regeneration and Recyclability",
       "blocks": [
         {
@@ -564,7 +580,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 24,
+      "id": 25,
       "title": "Selectivity Validation (Experimental)",
       "blocks": [
         {
@@ -591,7 +607,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 25,
+      "id": 26,
       "title": "Effect of pH and Surface Charge",
       "blocks": [
         {
@@ -612,7 +628,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 26,
+      "id": 27,
       "title": "Packed Column Experiment",
       "blocks": [
         {
@@ -636,7 +652,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 27,
+      "id": 28,
       "title": "Binary Protein Separation",
       "blocks": [
         {
@@ -656,7 +672,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 28,
+      "id": 29,
       "title": "Real Human Serum Application",
       "blocks": [
         {
@@ -680,7 +696,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 29,
+      "id": 30,
       "title": "Overall Performance Summary",
       "blocks": [
         {
@@ -696,7 +712,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 30,
+      "id": 31,
       "title": "Scientific Contribution",
       "blocks": [
         {
@@ -711,7 +727,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 31,
+      "id": 32,
       "title": "Industrial Outlook",
       "blocks": [
         {
@@ -730,7 +746,7 @@ export const presentation = {
       ]
     },
     {
-      "id": 32,
+      "id": 33,
       "title": "Final Conclusion",
       "blocks": [
         {
@@ -754,3 +770,4 @@ export const presentation = {
     }
   ]
 };
+

@@ -48,6 +48,7 @@ Example slide body:
 ```js
 blocks: [
   { type: "lead", text: "Short intro" },
+  { type: "image", src: "assets/images/example.png", alt: "Example", align: "center" },
   { type: "bullets", items: ["Point A", "Point B"] },
   { type: "paragraph", text: "Context between lists." },
   { type: "bullets", items: ["Point C", "Point D"] },
@@ -60,7 +61,7 @@ Supported block types:
 - `paragraph` with `text`
 - `bullets` with `items` (array of strings)
 - `figures` with `items` (array of labels/placeholders)
-- `image` with `src` and optional `alt`
+- `image` with `src`, optional `alt`, and optional `align` (`left`, `center`, `right`)
 
 ## Insert Real Figures
 

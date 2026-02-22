@@ -101,6 +101,10 @@ function createImageBlock(block) {
     typeof block.alt === "string" && block.alt.length > 0 ? block.alt : "Slide image";
   const image = document.createElement("img");
   image.className = "slide-image reveal";
+  const align = typeof block.align === "string" ? block.align.trim().toLowerCase() : "";
+  if (["left", "center", "right"].includes(align)) {
+    image.classList.add(`slide-image--align-${align}`);
+  }
   image.src = src;
   image.alt = alt;
   image.decoding = "async";
